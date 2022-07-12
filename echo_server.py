@@ -11,9 +11,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     with connection:
         print(f"Connected by {address}")
         while True:
-            msg_length = int(connection.recv(HEADER).decode('utf-8'))
-            msg_length = int(msg_length)
-            data = connection.recv(msg_length)
+            msg_length = connection.recv(HEADER) #reads the data in byte form, length of header
+            msg_length = len(msg_length.decode('utf-8')) #*should* convert to str
+            data = connection.recv(msg_length) #reads the message using the message length found
             if not data:
                 break
             connection.sendall(data)
