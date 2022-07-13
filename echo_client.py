@@ -3,22 +3,43 @@ import socket
 HEADER = 20
 HOST = "127.0.0.1"
 PORT = 12345
+user_input = 'hi'
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST,PORT))
     
-    msg = "hiii"
-    message = msg.encode('utf-8') #makes msg string
-    msg_length = len(message).to_bytes(2, byteorder= 'big')   #gets length/size of msg
-    #send_length = str(msg_length).encode('utf-8')   #send length is initially the size of the msg
-    #send_length += b' ' * (HEADER - len(send_length)) #creates spaces to make initial 
+    print("[Type 'Bye' to disconnect]")
+    while user_input.lower() != 'bye'.lower():
+        user_input = input("\nType a message: ")
+        
+        msg = user_input.encode('utf-8') #makes a str
+        send_length = len(msg).to_bytes(4, "big") #converts str to bytes
 
-    s.send(msg_length)
-    data = s.recv(1024)
+        s.sendall(send_length) #sends size of outgoing message to server
+        s.sendall(msg) #sends msg to server 
+        data = s.recv(1024)
 
-    print(f"Received {data!r}")
+        print(f"Received {data!r}")
 
-    s.send(message)
-    data = s.recv(1024)
 
-    print(f"Received {data!r}")
+
+
+    # msg = 'hi'.encode('utf-8') #makes a str
+    # send_length = len(msg).to_bytes(4, "big") #converts str to bytes
+
+    # s.sendall(send_length) #sends size of outgoing message to server
+    # s.sendall(msg) #sends msg to server 
+    # data = s.recv(1024)
+
+    # print(f"Received {data!r}")
+
+    # ###
+
+    # msg2 = 'BYE'.encode('utf-8')
+    # send_length2 = len(msg2).to_bytes(4, "big")
+
+    # s.sendall(send_length2)
+    # s.sendall(msg2)
+    # data2 = s.recv(1024)
+
+    # print(f"Received {data2!r}")
