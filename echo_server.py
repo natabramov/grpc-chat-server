@@ -9,8 +9,8 @@ s.bind((HOST,PORT))
 s.listen()
 print("Server is listening ... ")
 
-connection, address = s.accept()
 while True:
+    connection, address = s.accept()
     if connection:
         print(f"Connected by [{address}]")
 
