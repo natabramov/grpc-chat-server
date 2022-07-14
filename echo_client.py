@@ -17,7 +17,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
 
         s.sendall(send_length) #sends size of outgoing message to server
         s.sendall(msg) #sends msg to server 
-        data = s.recv(1024)
+        data = s.recv(1024).decode()
 
         print(f"Received {data!r}")
 
