@@ -1,0 +1,1 @@
+python -m grpc_tools.protoc -I./protos --python_out=./src/protos . /protos/chat.proto

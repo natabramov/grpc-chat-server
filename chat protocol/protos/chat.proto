@@ -10,11 +10,13 @@ service ChatServer {
 // The request message containing the user's name.
 message ChatRequest {
     string username = 1;
-    string message_id = 2;
+    string channel = 2;
+    string message = 3;
+    uint64 timestamp = 4;
 }
 
 // The response message containing the greetings
 message ChatReply {
-    string message = 1;
-    string time_sent = 2;
+    bool successful = 1;
+    uint64 timestamp = 2;
 }
