@@ -1,0 +1,20 @@
+syntax = "proto3";
+package grpc;
+
+// The greeting service definition.
+service ChatServer {
+  // Sends a greeting
+    rpc SendChat (ChatRequest) returns (ChatReply) {}
+}
+
+// The request message containing the user's name.
+message ChatRequest {
+    string username = 1;
+    string message_id = 2;
+}
+
+// The response message containing the greetings
+message ChatReply {
+    string message = 1;
+    string time_sent = 2;
+}
