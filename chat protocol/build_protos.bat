@@ -1,1 +1,1 @@
-python -m grpc_tools.protoc -I./protos --python_out=./src/protos . /protos/chat.proto
+python -m grpc_tools.protoc --proto_path=./protos --python_out=./src/protos --grpc_python_out=./src/protos ./protos/chat.proto
