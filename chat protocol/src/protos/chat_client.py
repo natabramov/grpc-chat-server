@@ -11,7 +11,10 @@ def run():
         stub = chat_pb2_grpc.ChatServerStub(channel)
         response = stub.SendChat(chat_pb2.ChatRequest(username='Natalie'))
         print(response.successful)
-
+        response2 = stub.JoinChannel(chat_pb2.JoinRequest(username='Natalie'))
+        print(response2.successful)
+        response3 = stub.LeaveChannel(chat_pb2.LeaveRequest(username='Natalie'))
+        print(response3.successful)
 if __name__ == '__main__':
     logging.basicConfig()
     run()

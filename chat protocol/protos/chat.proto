@@ -1,13 +1,16 @@
 syntax = "proto3";
 package grpc;
 
-// The greeting service definition.
 service ChatServer {
-  // Sends a greeting
+
     rpc SendChat (ChatRequest) returns (ChatReply) {}
+    
+    rpc JoinChannel (JoinRequest) returns (JoinReply) {}
+
+    rpc LeaveChannel (LeaveRequest) returns (LeaveReply) {}
+
 }
 
-// The request message containing the user's name.
 message ChatRequest {
     string username = 1;
     string channel = 2;
@@ -15,8 +18,29 @@ message ChatRequest {
     uint64 timestamp = 4;
 }
 
-// The response message containing the greetings
 message ChatReply {
+    bool successful = 1;
+    uint64 timestamp = 2;
+}
+
+message JoinRequest {
+    string username = 1;
+    string channel = 2;
+    uint64 timestamp = 3;
+}
+
+message JoinReply {
+    bool successful = 1;
+    uint64 timestamp = 2;
+}
+
+message LeaveRequest {
+    string username = 1;
+    string channel = 2;
+    uint64 timestamp = 3;
+}
+
+message LeaveReply {
     bool successful = 1;
     uint64 timestamp = 2;
 }

@@ -14,12 +14,16 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x12\x04grpc\"T\n\x0b\x43hatRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\x11\n\ttimestamp\x18\x04 \x01(\x04\"2\n\tChatReply\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\x32>\n\nChatServer\x12\x30\n\x08SendChat\x12\x11.grpc.ChatRequest\x1a\x0f.grpc.ChatReply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x12\x04grpc\"T\n\x0b\x43hatRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x0f\n\x07message\x18\x03 \x01(\t\x12\x11\n\ttimestamp\x18\x04 \x01(\x04\"2\n\tChatReply\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\"C\n\x0bJoinRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"2\n\tJoinReply\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\"D\n\x0cLeaveRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"3\n\nLeaveReply\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x11\n\ttimestamp\x18\x02 \x01(\x04\x32\xab\x01\n\nChatServer\x12\x30\n\x08SendChat\x12\x11.grpc.ChatRequest\x1a\x0f.grpc.ChatReply\"\x00\x12\x33\n\x0bJoinChannel\x12\x11.grpc.JoinRequest\x1a\x0f.grpc.JoinReply\"\x00\x12\x36\n\x0cLeaveChannel\x12\x12.grpc.LeaveRequest\x1a\x10.grpc.LeaveReply\"\x00\x62\x06proto3')
 
 
 
 _CHATREQUEST = DESCRIPTOR.message_types_by_name['ChatRequest']
 _CHATREPLY = DESCRIPTOR.message_types_by_name['ChatReply']
+_JOINREQUEST = DESCRIPTOR.message_types_by_name['JoinRequest']
+_JOINREPLY = DESCRIPTOR.message_types_by_name['JoinReply']
+_LEAVEREQUEST = DESCRIPTOR.message_types_by_name['LeaveRequest']
+_LEAVEREPLY = DESCRIPTOR.message_types_by_name['LeaveReply']
 ChatRequest = _reflection.GeneratedProtocolMessageType('ChatRequest', (_message.Message,), {
   'DESCRIPTOR' : _CHATREQUEST,
   '__module__' : 'chat_pb2'
@@ -34,6 +38,34 @@ ChatReply = _reflection.GeneratedProtocolMessageType('ChatReply', (_message.Mess
   })
 _sym_db.RegisterMessage(ChatReply)
 
+JoinRequest = _reflection.GeneratedProtocolMessageType('JoinRequest', (_message.Message,), {
+  'DESCRIPTOR' : _JOINREQUEST,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.JoinRequest)
+  })
+_sym_db.RegisterMessage(JoinRequest)
+
+JoinReply = _reflection.GeneratedProtocolMessageType('JoinReply', (_message.Message,), {
+  'DESCRIPTOR' : _JOINREPLY,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.JoinReply)
+  })
+_sym_db.RegisterMessage(JoinReply)
+
+LeaveRequest = _reflection.GeneratedProtocolMessageType('LeaveRequest', (_message.Message,), {
+  'DESCRIPTOR' : _LEAVEREQUEST,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.LeaveRequest)
+  })
+_sym_db.RegisterMessage(LeaveRequest)
+
+LeaveReply = _reflection.GeneratedProtocolMessageType('LeaveReply', (_message.Message,), {
+  'DESCRIPTOR' : _LEAVEREPLY,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.LeaveReply)
+  })
+_sym_db.RegisterMessage(LeaveReply)
+
 _CHATSERVER = DESCRIPTOR.services_by_name['ChatServer']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -42,6 +74,14 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _CHATREQUEST._serialized_end=104
   _CHATREPLY._serialized_start=106
   _CHATREPLY._serialized_end=156
-  _CHATSERVER._serialized_start=158
-  _CHATSERVER._serialized_end=220
+  _JOINREQUEST._serialized_start=158
+  _JOINREQUEST._serialized_end=225
+  _JOINREPLY._serialized_start=227
+  _JOINREPLY._serialized_end=277
+  _LEAVEREQUEST._serialized_start=279
+  _LEAVEREQUEST._serialized_end=347
+  _LEAVEREPLY._serialized_start=349
+  _LEAVEREPLY._serialized_end=400
+  _CHATSERVER._serialized_start=403
+  _CHATSERVER._serialized_end=574
 # @@protoc_insertion_point(module_scope)
