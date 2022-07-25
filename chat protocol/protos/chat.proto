@@ -3,44 +3,78 @@ package grpc;
 
 service ChatServer {
 
-    rpc SendChat (ChatRequest) returns (ChatReply) {}
-    
-    rpc JoinChannel (JoinRequest) returns (JoinReply) {}
-
-    rpc LeaveChannel (LeaveRequest) returns (LeaveReply) {}
-
+    rpc Channel_SendMessage (ChannelSendMessageRequest) returns (GenericResponse) {}
+    rpc Channel_GetMessages (ChannelGetMessagesRequest) returns (ChannelGetMessagesResponse) {}
+    rpc Channel_MemberUpdate (ChannelMemberUpdateRequest) returns (GenericResponse) {}
 }
 
-message ChatRequest {
-    string username = 1;
-    string channel = 2;
-    string message = 3;
+message AuthUser {
+    string name = 1;
+    string token = 2;
+}
+
+message ChatMessage {
+    string text = 1;
+    optional uint32 font = 2;
+    optional uint32 style = 3;
+}
+
+message ImageMessage {
+    string url = 1;
+}
+
+message ChannelMessage {
+    string user = 1;
+    oneof message {
+        ChatMessage chat = 2;
+        ImageMessage image = 3;
+    }
     uint64 timestamp = 4;
 }
 
-message ChatReply {
-    bool successful = 1;
-    uint64 timestamp = 2;
+message Channel {
+    string topic = 1;
+    repeated string users = 2;
+    repeated ChannelMessage messages = 3;
+    string password = 4;
 }
 
-message JoinRequest {
-    string username = 1;
-    string channel = 2;
+message GenericResponse {
+    bool successful = 1;
+    optional string error = 2;
     uint64 timestamp = 3;
 }
 
-message JoinReply {
-    bool successful = 1;
-    uint64 timestamp = 2;
+message ChannelSendMessageRequest {
+    AuthUser user = 1;
+    string channel = 2;
+    oneof message {
+        ChatMessage chat = 3;
+        ImageMessage image = 4;
+    }
+    uint64 timestamp = 5;
 }
 
-message LeaveRequest {
-    string username = 1;
+message ChannelGetMessagesRequest {
+    AuthUser user = 1;
     string channel = 2;
+    uint64 since = 3;
+}
+
+message ChannelGetMessagesResponse {
+    bool successful = 1;
+    repeated ChannelMessage messages = 2;
     uint64 timestamp = 3;
 }
 
-message LeaveReply {
-    bool successful = 1;
-    uint64 timestamp = 2;
+message ChannelMemberUpdateRequest {
+    AuthUser user = 1;
+    string channel = 2;
+    optional string password = 3;
+    enum UpdateType {
+        Join = 0;
+        Leave = 1;
+    }
+    UpdateType type = 4;
+    uint64 timestamp = 5;
 }
