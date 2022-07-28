@@ -29,8 +29,8 @@ def run():
 
         # Say a message
         message = chat_pb2.ChatMessage(
-            text='hello'
-        )
+            text='hello')
+            
         response2 = stub.Channel_SendMessage(chat_pb2.ChannelSendMessageRequest(
             user=get_auth_user(),
             channel='testchannel',
@@ -43,8 +43,8 @@ def run():
         response3 = stub.Channel_GetMessages(chat_pb2.ChannelGetMessagesRequest(
             user=get_auth_user(),
             channel='testchannel',
-            since=timestamp
-        ))
+            since=timestamp))
+
         for message in response3.messages:
             print(message.user + ": " + message.chat.text)
         
@@ -55,6 +55,7 @@ def run():
             password=None,
             type=chat_pb2.ChannelMemberUpdateRequest.UpdateType.Leave))
         print(response3.successful)
+
 if __name__ == '__main__':
     logging.basicConfig()
     run()
