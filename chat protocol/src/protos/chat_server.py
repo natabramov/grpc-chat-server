@@ -101,13 +101,13 @@ class ChatServer(ChatServerServicer):
         if request.channel not in self._channelUserList:
             self._channelUserList[request.channel] = []
 
-        if request.type == "Join" and request.user not in self._channelUserList[
+        if request.type == ChannelMemberUpdateRequest.Join and request.user not in self._channelUserList[
                 request.channel]:
             print(
                 f"User {request.user.name} has joined channel {request.channel}")
             self._channelUserList[request.channel].append(request.user)
 
-        elif request.type == "Leave" and request.user in self._channelUserList[request.channel]:
+        elif request.type == ChannelMemberUpdateRequest.Join and request.user in self._channelUserList[request.channel]:
             print(
                 f"User {request.user.name} has left channel {request.channel}")
             self._channelUserList[request.channel].remove(request.user)
