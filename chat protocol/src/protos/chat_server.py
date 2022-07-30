@@ -16,11 +16,14 @@ import chat_pb2_grpc
 
 import time
 
+from protos.chat_pb2 import ChannelCreateRequest, ChannelDeleteRequest
+
 class ChatServer(ChatServerServicer):
 
     def __init__(self) -> None:
         self._channelMessages = {}
         self._channelUserList = {}
+        self._channelOwners = {}
         
     def _get_timestamp(self) -> int:
         return int(time.time())
@@ -81,15 +84,6 @@ class ChatServer(ChatServerServicer):
 
         self._print_debug_entry(request)
 
-        return GenericResponse(successful=True, timestamp=self._get_timestamp())
-
-    def Channel_MemberList(
-        self,
-        request: ChannelMemberUpdateRequest,
-        context) -> list:
-
-        self._print_debug_entry(request)
-
         if request.channel not in self._channelUserList:
             self._channelUserList[request.channel] = []
 
@@ -99,8 +93,32 @@ class ChatServer(ChatServerServicer):
         elif request.HasField("Leave"):
             self._channelUserList[request.channel].remove(request.user)
 
-        return self._channelUserList[request.channel]
+        return GenericResponse(successful=True, timestamp=self._get_timestamp())
 
+    def Channel_Create(self, 
+        request: ChannelCreateRequest, 
+        context) -> GenericResponse:
+
+        new_channel = ChannelCreateRequest(user='Natalie', 
+            channel='channel name', 
+            timestamp=self._get_timestamp())
+
+        if new_channel not in self._channelOwners:
+            self._channelOwners[new_channel] = [request.user] # key:value -> channel:user
+
+        return GenericResponse(successful=True, timestamp=self._get_timestamp())
+
+    def Channel_Delete(self,
+        request: ChannelDeleteRequest,
+        context) -> GenericResponse:
+
+        # this confused me and is prob wrong but i want to check if the user is in the list of the values of the channel
+        if request.user != (list(self._channelOwners.keys())[list(self._channelOwners.values()).index(request.user)]): 
+            return GenericResponse(successful=False, timestamp=self._get_timestamp())
+
+        del self._channelOwners[request.channel]
+
+        return GenericResponse(successful=True, timestamp=self._get_timestamp())
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

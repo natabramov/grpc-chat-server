@@ -6,6 +6,8 @@ service ChatServer {
     rpc Channel_SendMessage (ChannelSendMessageRequest) returns (GenericResponse) {}
     rpc Channel_GetMessages (ChannelGetMessagesRequest) returns (ChannelGetMessagesResponse) {}
     rpc Channel_MemberUpdate (ChannelMemberUpdateRequest) returns (GenericResponse) {}
+    rpc Channel_Create (ChannelCreateRequest) returns (GenericResponse) {}
+    rpc Channel_Delete (ChannelDeleteRequest) returns (GenericResponse) {}
 }
 
 message AuthUser {
@@ -76,5 +78,19 @@ message ChannelMemberUpdateRequest {
         Leave = 1;
     }
     UpdateType type = 4;
+    uint64 timestamp = 5;
+}
+
+message ChannelCreateRequest {
+    AuthUser user = 1;
+    string channel = 2;
+    optional string password = 3;
+    uint64 timestamp = 5;
+}
+
+message ChannelDeleteRequest {
+    AuthUser user = 1;
+    string channel = 2;
+    optional string password = 3;
     uint64 timestamp = 5;
 }

@@ -29,6 +29,16 @@ class ChatServerStub(object):
                 request_serializer=chat__pb2.ChannelMemberUpdateRequest.SerializeToString,
                 response_deserializer=chat__pb2.GenericResponse.FromString,
                 )
+        self.Channel_Create = channel.unary_unary(
+                '/grpc.ChatServer/Channel_Create',
+                request_serializer=chat__pb2.ChannelCreateRequest.SerializeToString,
+                response_deserializer=chat__pb2.GenericResponse.FromString,
+                )
+        self.Channel_Delete = channel.unary_unary(
+                '/grpc.ChatServer/Channel_Delete',
+                request_serializer=chat__pb2.ChannelDeleteRequest.SerializeToString,
+                response_deserializer=chat__pb2.GenericResponse.FromString,
+                )
 
 
 class ChatServerServicer(object):
@@ -52,6 +62,18 @@ class ChatServerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Channel_Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Channel_Delete(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ChatServerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -68,6 +90,16 @@ def add_ChatServerServicer_to_server(servicer, server):
             'Channel_MemberUpdate': grpc.unary_unary_rpc_method_handler(
                     servicer.Channel_MemberUpdate,
                     request_deserializer=chat__pb2.ChannelMemberUpdateRequest.FromString,
+                    response_serializer=chat__pb2.GenericResponse.SerializeToString,
+            ),
+            'Channel_Create': grpc.unary_unary_rpc_method_handler(
+                    servicer.Channel_Create,
+                    request_deserializer=chat__pb2.ChannelCreateRequest.FromString,
+                    response_serializer=chat__pb2.GenericResponse.SerializeToString,
+            ),
+            'Channel_Delete': grpc.unary_unary_rpc_method_handler(
+                    servicer.Channel_Delete,
+                    request_deserializer=chat__pb2.ChannelDeleteRequest.FromString,
                     response_serializer=chat__pb2.GenericResponse.SerializeToString,
             ),
     }
@@ -127,6 +159,40 @@ class ChatServer(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Channel_MemberUpdate',
             chat__pb2.ChannelMemberUpdateRequest.SerializeToString,
+            chat__pb2.GenericResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Channel_Create(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Channel_Create',
+            chat__pb2.ChannelCreateRequest.SerializeToString,
+            chat__pb2.GenericResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Channel_Delete(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Channel_Delete',
+            chat__pb2.ChannelDeleteRequest.SerializeToString,
             chat__pb2.GenericResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

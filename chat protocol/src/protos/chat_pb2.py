@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x12\x04grpc\"\'\n\x08\x41uthUser\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\"U\n\x0b\x43hatMessage\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x11\n\x04\x66ont\x18\x02 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05style\x18\x03 \x01(\rH\x01\x88\x01\x01\x42\x07\n\x05_fontB\x08\n\x06_style\"\x1b\n\x0cImageMessage\x12\x0b\n\x03url\x18\x01 \x01(\t\"\x84\x01\n\x0e\x43hannelMessage\x12\x0c\n\x04user\x18\x01 \x01(\t\x12!\n\x04\x63hat\x18\x02 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x03 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x04 \x01(\x04\x42\t\n\x07message\"a\n\x07\x43hannel\x12\r\n\x05topic\x18\x01 \x01(\t\x12\r\n\x05users\x18\x02 \x03(\t\x12&\n\x08messages\x18\x03 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x10\n\x08password\x18\x04 \x01(\t\"V\n\x0fGenericResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x42\x08\n\x06_error\"\xb0\x01\n\x19\x43hannelSendMessageRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12!\n\x04\x63hat\x18\x03 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x04 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\t\n\x07message\"Y\n\x19\x43hannelGetMessagesRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\r\n\x05since\x18\x03 \x01(\x04\"k\n\x1a\x43hannelGetMessagesResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12&\n\x08messages\x18\x02 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"\xe0\x01\n\x1a\x43hannelMemberUpdateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x39\n\x04type\x18\x04 \x01(\x0e\x32+.grpc.ChannelMemberUpdateRequest.UpdateType\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\"!\n\nUpdateType\x12\x08\n\x04Join\x10\x00\x12\t\n\x05Leave\x10\x01\x42\x0b\n\t_password2\x8c\x02\n\nChatServer\x12O\n\x13\x43hannel_SendMessage\x12\x1f.grpc.ChannelSendMessageRequest\x1a\x15.grpc.GenericResponse\"\x00\x12Z\n\x13\x43hannel_GetMessages\x12\x1f.grpc.ChannelGetMessagesRequest\x1a .grpc.ChannelGetMessagesResponse\"\x00\x12Q\n\x14\x43hannel_MemberUpdate\x12 .grpc.ChannelMemberUpdateRequest\x1a\x15.grpc.GenericResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x12\x04grpc\"\'\n\x08\x41uthUser\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\"U\n\x0b\x43hatMessage\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x11\n\x04\x66ont\x18\x02 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05style\x18\x03 \x01(\rH\x01\x88\x01\x01\x42\x07\n\x05_fontB\x08\n\x06_style\"\x1b\n\x0cImageMessage\x12\x0b\n\x03url\x18\x01 \x01(\t\"\x84\x01\n\x0e\x43hannelMessage\x12\x0c\n\x04user\x18\x01 \x01(\t\x12!\n\x04\x63hat\x18\x02 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x03 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x04 \x01(\x04\x42\t\n\x07message\"a\n\x07\x43hannel\x12\r\n\x05topic\x18\x01 \x01(\t\x12\r\n\x05users\x18\x02 \x03(\t\x12&\n\x08messages\x18\x03 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x10\n\x08password\x18\x04 \x01(\t\"V\n\x0fGenericResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x42\x08\n\x06_error\"\xb0\x01\n\x19\x43hannelSendMessageRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12!\n\x04\x63hat\x18\x03 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x04 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\t\n\x07message\"Y\n\x19\x43hannelGetMessagesRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\r\n\x05since\x18\x03 \x01(\x04\"k\n\x1a\x43hannelGetMessagesResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12&\n\x08messages\x18\x02 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"\xe0\x01\n\x1a\x43hannelMemberUpdateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x39\n\x04type\x18\x04 \x01(\x0e\x32+.grpc.ChannelMemberUpdateRequest.UpdateType\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\"!\n\nUpdateType\x12\x08\n\x04Join\x10\x00\x12\t\n\x05Leave\x10\x01\x42\x0b\n\t_password\"|\n\x14\x43hannelCreateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\x0b\n\t_password\"|\n\x14\x43hannelDeleteRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\x0b\n\t_password2\x9a\x03\n\nChatServer\x12O\n\x13\x43hannel_SendMessage\x12\x1f.grpc.ChannelSendMessageRequest\x1a\x15.grpc.GenericResponse\"\x00\x12Z\n\x13\x43hannel_GetMessages\x12\x1f.grpc.ChannelGetMessagesRequest\x1a .grpc.ChannelGetMessagesResponse\"\x00\x12Q\n\x14\x43hannel_MemberUpdate\x12 .grpc.ChannelMemberUpdateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x43hannel_Create\x12\x1a.grpc.ChannelCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x43hannel_Delete\x12\x1a.grpc.ChannelDeleteRequest\x1a\x15.grpc.GenericResponse\"\x00\x62\x06proto3')
 
 
 
@@ -28,6 +28,8 @@ _CHANNELSENDMESSAGEREQUEST = DESCRIPTOR.message_types_by_name['ChannelSendMessag
 _CHANNELGETMESSAGESREQUEST = DESCRIPTOR.message_types_by_name['ChannelGetMessagesRequest']
 _CHANNELGETMESSAGESRESPONSE = DESCRIPTOR.message_types_by_name['ChannelGetMessagesResponse']
 _CHANNELMEMBERUPDATEREQUEST = DESCRIPTOR.message_types_by_name['ChannelMemberUpdateRequest']
+_CHANNELCREATEREQUEST = DESCRIPTOR.message_types_by_name['ChannelCreateRequest']
+_CHANNELDELETEREQUEST = DESCRIPTOR.message_types_by_name['ChannelDeleteRequest']
 _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE = _CHANNELMEMBERUPDATEREQUEST.enum_types_by_name['UpdateType']
 AuthUser = _reflection.GeneratedProtocolMessageType('AuthUser', (_message.Message,), {
   'DESCRIPTOR' : _AUTHUSER,
@@ -99,6 +101,20 @@ ChannelMemberUpdateRequest = _reflection.GeneratedProtocolMessageType('ChannelMe
   })
 _sym_db.RegisterMessage(ChannelMemberUpdateRequest)
 
+ChannelCreateRequest = _reflection.GeneratedProtocolMessageType('ChannelCreateRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CHANNELCREATEREQUEST,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.ChannelCreateRequest)
+  })
+_sym_db.RegisterMessage(ChannelCreateRequest)
+
+ChannelDeleteRequest = _reflection.GeneratedProtocolMessageType('ChannelDeleteRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CHANNELDELETEREQUEST,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.ChannelDeleteRequest)
+  })
+_sym_db.RegisterMessage(ChannelDeleteRequest)
+
 _CHATSERVER = DESCRIPTOR.services_by_name['ChatServer']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -125,6 +141,10 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _CHANNELMEMBERUPDATEREQUEST._serialized_end=1103
   _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE._serialized_start=1057
   _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE._serialized_end=1090
-  _CHATSERVER._serialized_start=1106
-  _CHATSERVER._serialized_end=1374
+  _CHANNELCREATEREQUEST._serialized_start=1105
+  _CHANNELCREATEREQUEST._serialized_end=1229
+  _CHANNELDELETEREQUEST._serialized_start=1231
+  _CHANNELDELETEREQUEST._serialized_end=1355
+  _CHATSERVER._serialized_start=1358
+  _CHATSERVER._serialized_end=1768
 # @@protoc_insertion_point(module_scope)
