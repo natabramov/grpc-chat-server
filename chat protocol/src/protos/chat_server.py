@@ -100,7 +100,7 @@ class ChatServer(ChatServerServicer):
         request: ChannelCreateRequest, 
         context) -> GenericResponse:
 
-        new_channel = Channel(topic=ChannelCreateRequest.channel,
+        new_channel = Channel(topic=ChannelCreateRequest.channelname,
         users=ChannelCreateRequest.user)
 
         if new_channel not in self._channelOwners:
