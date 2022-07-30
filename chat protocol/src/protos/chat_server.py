@@ -10,6 +10,7 @@ from chat_pb2 import ChannelGetMessagesResponse
 from chat_pb2 import ChannelMessage
 from chat_pb2 import ChannelMemberUpdateRequest
 from chat_pb2 import ChannelSendMessageRequest
+from chat_pb2 import Channel
 
 from chat_pb2_grpc import ChatServerServicer
 import chat_pb2_grpc
@@ -99,9 +100,8 @@ class ChatServer(ChatServerServicer):
         request: ChannelCreateRequest, 
         context) -> GenericResponse:
 
-        new_channel = ChannelCreateRequest(user='Natalie', 
-            channel='channel name', 
-            timestamp=self._get_timestamp())
+        new_channel = Channel(topic=ChannelCreateRequest.channel,
+        users=ChannelCreateRequest.user)
 
         if new_channel not in self._channelOwners:
             self._channelOwners[new_channel] = [request.user] # key:value -> channel:user
