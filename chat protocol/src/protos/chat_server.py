@@ -5,6 +5,8 @@ import logging
 import grpc
 
 from chat_pb2 import GenericResponse
+from chat_pb2 import ChannelCreateRequest
+from chat_pb2 import ChannelDeleteRequest
 from chat_pb2 import ChannelGetMessagesRequest
 from chat_pb2 import ChannelGetMessagesResponse
 from chat_pb2 import ChannelMessage
@@ -17,7 +19,6 @@ import chat_pb2_grpc
 
 import time
 
-from protos.chat_pb2 import ChannelCreateRequest, ChannelDeleteRequest
 
 class ChatServer(ChatServerServicer):
 
@@ -25,18 +26,21 @@ class ChatServer(ChatServerServicer):
         self._channelMessages = {}
         self._channelUserList = {}
         self._channelOwners = {}
-        
+
     def _get_timestamp(self) -> int:
         return int(time.time())
 
     def _print_debug_entry(self, request) -> None:
-        print(f"Handling send message request for channel {request.channel} from user {request.user.name}")
+        print(
+            f"Handling send message request for channel {request.channel} from user {request.user.name}")
 
-    def _extract_message(self, request: ChannelSendMessageRequest) -> ChannelMessage:
+    def _extract_message(
+            self,
+            request: ChannelSendMessageRequest) -> ChannelMessage:
         channel_message = ChannelMessage(
             user=request.user.name,
             timestamp=request.timestamp)
-            
+
         if request.HasField("chat"):
             channel_message.chat.CopyFrom(request.chat)
         elif request.HasField("image"):
@@ -45,30 +49,36 @@ class ChatServer(ChatServerServicer):
         return channel_message
 
     def Channel_SendMessage(
-        self,
-        request: ChannelSendMessageRequest,
-        context) -> GenericResponse:
+            self,
+            request: ChannelSendMessageRequest,
+            context) -> GenericResponse:
 
         self._print_debug_entry(request)
 
         if request.channel not in self._channelMessages:
             self._channelMessages[request.channel] = []
 
-        self._channelMessages[request.channel].append(self._extract_message(request))
+        print(
+            f"Adding message to channel {request.channel} from user {request.user.name}")
+        self._channelMessages[request.channel].append(
+            self._extract_message(request))
 
-        return GenericResponse(successful=True, timestamp=self._get_timestamp())
+        return GenericResponse(
+            successful=True,
+            timestamp=self._get_timestamp())
 
     def Channel_GetMessages(
-        self,
-        request: ChannelGetMessagesRequest,
-        context) -> ChannelGetMessagesResponse:
+            self,
+            request: ChannelGetMessagesRequest,
+            context) -> ChannelGetMessagesResponse:
 
         self._print_debug_entry(request)
 
-        results = None
+        results = []
         successful = False
         if request.channel in self._channelMessages:
-            results = filter(lambda message: message.timestamp >= request.since, self._channelMessages[request.channel])
+            results = filter(lambda message: message.timestamp >=
+                             request.since, self._channelMessages[request.channel])
             successful = True
 
         response = ChannelGetMessagesResponse(
@@ -76,49 +86,77 @@ class ChatServer(ChatServerServicer):
             timestamp=self._get_timestamp())
         response.messages.extend(results)
 
+        print(
+            f"User {request.user.name} requested messages since {request.since}. Returning {len(response.messages)} messages")
+
         return response
 
     def Channel_MemberUpdate(
-        self,
-        request: ChannelMemberUpdateRequest,
-        context) -> GenericResponse:
+            self,
+            request: ChannelMemberUpdateRequest,
+            context) -> GenericResponse:
 
         self._print_debug_entry(request)
 
         if request.channel not in self._channelUserList:
             self._channelUserList[request.channel] = []
 
-        if request.HasField("Join"):
+        if request.type == "Join" and request.user not in self._channelUserList[
+                request.channel]:
+            print(
+                f"User {request.user.name} has joined channel {request.channel}")
             self._channelUserList[request.channel].append(request.user)
-        
-        elif request.HasField("Leave"):
+
+        elif request.type == "Leave" and request.user in self._channelUserList[request.channel]:
+            print(
+                f"User {request.user.name} has left channel {request.channel}")
             self._channelUserList[request.channel].remove(request.user)
 
-        return GenericResponse(successful=True, timestamp=self._get_timestamp())
+        return GenericResponse(
+            successful=True,
+            timestamp=self._get_timestamp())
 
-    def Channel_Create(self, 
-        request: ChannelCreateRequest, 
-        context) -> GenericResponse:
+    def Channel_Create(self,
+                       request: ChannelCreateRequest,
+                       context) -> GenericResponse:
 
         new_channel = Channel(topic=ChannelCreateRequest.channelname,
-        users=ChannelCreateRequest.user)
+                              users=ChannelCreateRequest.user)
 
+        successful = True
         if new_channel not in self._channelOwners:
-            self._channelOwners[new_channel] = [request.user] # key:value -> channel:user
+            print(
+                f"User {request.user.name} has created channel {request.channel}")
+            self._channelOwners[new_channel] = request.user
+        else:
+            print(
+                f"User {request.user.name} has tried to create channel {request.channel} but it already exists")
+            successful = False
 
-        return GenericResponse(successful=True, timestamp=self._get_timestamp())
+        return GenericResponse(
+            successful=successful,
+            timestamp=self._get_timestamp())
 
     def Channel_Delete(self,
-        request: ChannelDeleteRequest,
-        context) -> GenericResponse:
+                       request: ChannelDeleteRequest,
+                       context) -> GenericResponse:
 
-        # this confused me and is prob wrong but i want to check if the user is in the list of the values of the channel
-        if request.user != (list(self._channelOwners.keys())[list(self._channelOwners.values()).index(request.user)]): 
-            return GenericResponse(successful=False, timestamp=self._get_timestamp())
+        successful = True
+        if self._channelOwners[request.channel] == request.user:
+            print(
+                f"User {request.user.name} has deleted channel {request.channel}")
+            del self._channelUserList[request.channel]
+            del self._channelOwners[request.channel]
+            del self._channelMessages[request.channel]
+        else:
+            print(
+                f"User {request.user.name} has tried to delete channel {request.channel} but they aren't allowed to")
+            successful = False
 
-        del self._channelOwners[request.channel]
+        return GenericResponse(
+            successful=successful,
+            timestamp=self._get_timestamp())
 
-        return GenericResponse(successful=True, timestamp=self._get_timestamp())
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
@@ -126,6 +164,7 @@ def serve():
     server.add_insecure_port('[::]:50051')
     server.start()
     server.wait_for_termination()
+
 
 if __name__ == '__main__':
     logging.basicConfig()
