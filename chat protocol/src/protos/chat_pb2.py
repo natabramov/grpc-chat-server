@@ -14,10 +14,11 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x12\x04grpc\"\'\n\x08\x41uthUser\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\"U\n\x0b\x43hatMessage\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x11\n\x04\x66ont\x18\x02 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05style\x18\x03 \x01(\rH\x01\x88\x01\x01\x42\x07\n\x05_fontB\x08\n\x06_style\"\x1b\n\x0cImageMessage\x12\x0b\n\x03url\x18\x01 \x01(\t\"\x84\x01\n\x0e\x43hannelMessage\x12\x0c\n\x04user\x18\x01 \x01(\t\x12!\n\x04\x63hat\x18\x02 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x03 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x04 \x01(\x04\x42\t\n\x07message\"a\n\x07\x43hannel\x12\r\n\x05topic\x18\x01 \x01(\t\x12\r\n\x05users\x18\x02 \x03(\t\x12&\n\x08messages\x18\x03 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x10\n\x08password\x18\x04 \x01(\t\"V\n\x0fGenericResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x42\x08\n\x06_error\"\xb0\x01\n\x19\x43hannelSendMessageRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12!\n\x04\x63hat\x18\x03 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x04 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\t\n\x07message\"Y\n\x19\x43hannelGetMessagesRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\r\n\x05since\x18\x03 \x01(\x04\"k\n\x1a\x43hannelGetMessagesResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12&\n\x08messages\x18\x02 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"\xe0\x01\n\x1a\x43hannelMemberUpdateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x39\n\x04type\x18\x04 \x01(\x0e\x32+.grpc.ChannelMemberUpdateRequest.UpdateType\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\"!\n\nUpdateType\x12\x08\n\x04Join\x10\x00\x12\t\n\x05Leave\x10\x01\x42\x0b\n\t_password\"\x80\x01\n\x14\x43hannelCreateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x13\n\x0b\x63hannelname\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\x0b\n\t_password\"|\n\x14\x43hannelDeleteRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\x0b\n\t_password\"-\n\x07\x41\x63\x63ount\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"M\n\x14\x41\x63\x63ountCreateRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"Y\n\x14\x41\x63\x63ountDeleteRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"E\n\x0cLoginRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x32\xde\x04\n\nChatServer\x12O\n\x13\x43hannel_SendMessage\x12\x1f.grpc.ChannelSendMessageRequest\x1a\x15.grpc.GenericResponse\"\x00\x12Z\n\x13\x43hannel_GetMessages\x12\x1f.grpc.ChannelGetMessagesRequest\x1a .grpc.ChannelGetMessagesResponse\"\x00\x12Q\n\x14\x43hannel_MemberUpdate\x12 .grpc.ChannelMemberUpdateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x43hannel_Create\x12\x1a.grpc.ChannelCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x43hannel_Delete\x12\x1a.grpc.ChannelDeleteRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x41\x63\x63ount_Create\x12\x1a.grpc.AccountCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x41\x63\x63ount_Delete\x12\x1a.grpc.AccountCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x34\n\x05Login\x12\x12.grpc.LoginRequest\x1a\x15.grpc.GenericResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nchat.proto\x12\x04grpc\"\x07\n\x05\x45mpty\"\'\n\x08\x41uthUser\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\r\n\x05token\x18\x02 \x01(\t\"U\n\x0b\x43hatMessage\x12\x0c\n\x04text\x18\x01 \x01(\t\x12\x11\n\x04\x66ont\x18\x02 \x01(\rH\x00\x88\x01\x01\x12\x12\n\x05style\x18\x03 \x01(\rH\x01\x88\x01\x01\x42\x07\n\x05_fontB\x08\n\x06_style\"\x1b\n\x0cImageMessage\x12\x0b\n\x03url\x18\x01 \x01(\t\"\x84\x01\n\x0e\x43hannelMessage\x12\x0c\n\x04user\x18\x01 \x01(\t\x12!\n\x04\x63hat\x18\x02 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x03 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x04 \x01(\x04\x42\t\n\x07message\"a\n\x07\x43hannel\x12\r\n\x05topic\x18\x01 \x01(\t\x12\r\n\x05users\x18\x02 \x03(\t\x12&\n\x08messages\x18\x03 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x10\n\x08password\x18\x04 \x01(\t\"V\n\x0fGenericResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12\x12\n\x05\x65rror\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x42\x08\n\x06_error\"\xb0\x01\n\x19\x43hannelSendMessageRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12!\n\x04\x63hat\x18\x03 \x01(\x0b\x32\x11.grpc.ChatMessageH\x00\x12#\n\x05image\x18\x04 \x01(\x0b\x32\x12.grpc.ImageMessageH\x00\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\t\n\x07message\"Y\n\x19\x43hannelGetMessagesRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\r\n\x05since\x18\x03 \x01(\x04\"k\n\x1a\x43hannelGetMessagesResponse\x12\x12\n\nsuccessful\x18\x01 \x01(\x08\x12&\n\x08messages\x18\x02 \x03(\x0b\x32\x14.grpc.ChannelMessage\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"\xe0\x01\n\x1a\x43hannelMemberUpdateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x39\n\x04type\x18\x04 \x01(\x0e\x32+.grpc.ChannelMemberUpdateRequest.UpdateType\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\"!\n\nUpdateType\x12\x08\n\x04Join\x10\x00\x12\t\n\x05Leave\x10\x01\x42\x0b\n\t_password\"\x80\x01\n\x14\x43hannelCreateRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x13\n\x0b\x63hannelname\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\x0b\n\t_password\"|\n\x14\x43hannelDeleteRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x0f\n\x07\x63hannel\x18\x02 \x01(\t\x12\x15\n\x08password\x18\x03 \x01(\tH\x00\x88\x01\x01\x12\x11\n\ttimestamp\x18\x05 \x01(\x04\x42\x0b\n\t_password\"-\n\x07\x41\x63\x63ount\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"M\n\x14\x41\x63\x63ountCreateRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"Y\n\x14\x41\x63\x63ountDeleteRequest\x12\x1c\n\x04user\x18\x01 \x01(\x0b\x32\x0e.grpc.AuthUser\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\"E\n\x0cLoginRequest\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x04\x32\x8e\x05\n\nChatServer\x12O\n\x13\x43hannel_SendMessage\x12\x1f.grpc.ChannelSendMessageRequest\x1a\x15.grpc.GenericResponse\"\x00\x12Z\n\x13\x43hannel_GetMessages\x12\x1f.grpc.ChannelGetMessagesRequest\x1a .grpc.ChannelGetMessagesResponse\"\x00\x12Q\n\x14\x43hannel_MemberUpdate\x12 .grpc.ChannelMemberUpdateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x43hannel_Create\x12\x1a.grpc.ChannelCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x43hannel_Delete\x12\x1a.grpc.ChannelDeleteRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x41\x63\x63ount_Create\x12\x1a.grpc.AccountCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x45\n\x0e\x41\x63\x63ount_Delete\x12\x1a.grpc.AccountCreateRequest\x1a\x15.grpc.GenericResponse\"\x00\x12\x34\n\x05Login\x12\x12.grpc.LoginRequest\x1a\x15.grpc.GenericResponse\"\x00\x12.\n\x06Status\x12\x0b.grpc.Empty\x1a\x15.grpc.GenericResponse\"\x00\x62\x06proto3')
 
 
 
+_EMPTY = DESCRIPTOR.message_types_by_name['Empty']
 _AUTHUSER = DESCRIPTOR.message_types_by_name['AuthUser']
 _CHATMESSAGE = DESCRIPTOR.message_types_by_name['ChatMessage']
 _IMAGEMESSAGE = DESCRIPTOR.message_types_by_name['ImageMessage']
@@ -35,6 +36,13 @@ _ACCOUNTCREATEREQUEST = DESCRIPTOR.message_types_by_name['AccountCreateRequest']
 _ACCOUNTDELETEREQUEST = DESCRIPTOR.message_types_by_name['AccountDeleteRequest']
 _LOGINREQUEST = DESCRIPTOR.message_types_by_name['LoginRequest']
 _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE = _CHANNELMEMBERUPDATEREQUEST.enum_types_by_name['UpdateType']
+Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), {
+  'DESCRIPTOR' : _EMPTY,
+  '__module__' : 'chat_pb2'
+  # @@protoc_insertion_point(class_scope:grpc.Empty)
+  })
+_sym_db.RegisterMessage(Empty)
+
 AuthUser = _reflection.GeneratedProtocolMessageType('AuthUser', (_message.Message,), {
   'DESCRIPTOR' : _AUTHUSER,
   '__module__' : 'chat_pb2'
@@ -151,40 +159,42 @@ _CHATSERVER = DESCRIPTOR.services_by_name['ChatServer']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _AUTHUSER._serialized_start=20
-  _AUTHUSER._serialized_end=59
-  _CHATMESSAGE._serialized_start=61
-  _CHATMESSAGE._serialized_end=146
-  _IMAGEMESSAGE._serialized_start=148
-  _IMAGEMESSAGE._serialized_end=175
-  _CHANNELMESSAGE._serialized_start=178
-  _CHANNELMESSAGE._serialized_end=310
-  _CHANNEL._serialized_start=312
-  _CHANNEL._serialized_end=409
-  _GENERICRESPONSE._serialized_start=411
-  _GENERICRESPONSE._serialized_end=497
-  _CHANNELSENDMESSAGEREQUEST._serialized_start=500
-  _CHANNELSENDMESSAGEREQUEST._serialized_end=676
-  _CHANNELGETMESSAGESREQUEST._serialized_start=678
-  _CHANNELGETMESSAGESREQUEST._serialized_end=767
-  _CHANNELGETMESSAGESRESPONSE._serialized_start=769
-  _CHANNELGETMESSAGESRESPONSE._serialized_end=876
-  _CHANNELMEMBERUPDATEREQUEST._serialized_start=879
-  _CHANNELMEMBERUPDATEREQUEST._serialized_end=1103
-  _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE._serialized_start=1057
-  _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE._serialized_end=1090
-  _CHANNELCREATEREQUEST._serialized_start=1106
-  _CHANNELCREATEREQUEST._serialized_end=1234
-  _CHANNELDELETEREQUEST._serialized_start=1236
-  _CHANNELDELETEREQUEST._serialized_end=1360
-  _ACCOUNT._serialized_start=1362
-  _ACCOUNT._serialized_end=1407
-  _ACCOUNTCREATEREQUEST._serialized_start=1409
-  _ACCOUNTCREATEREQUEST._serialized_end=1486
-  _ACCOUNTDELETEREQUEST._serialized_start=1488
-  _ACCOUNTDELETEREQUEST._serialized_end=1577
-  _LOGINREQUEST._serialized_start=1579
-  _LOGINREQUEST._serialized_end=1648
-  _CHATSERVER._serialized_start=1651
-  _CHATSERVER._serialized_end=2257
+  _EMPTY._serialized_start=20
+  _EMPTY._serialized_end=27
+  _AUTHUSER._serialized_start=29
+  _AUTHUSER._serialized_end=68
+  _CHATMESSAGE._serialized_start=70
+  _CHATMESSAGE._serialized_end=155
+  _IMAGEMESSAGE._serialized_start=157
+  _IMAGEMESSAGE._serialized_end=184
+  _CHANNELMESSAGE._serialized_start=187
+  _CHANNELMESSAGE._serialized_end=319
+  _CHANNEL._serialized_start=321
+  _CHANNEL._serialized_end=418
+  _GENERICRESPONSE._serialized_start=420
+  _GENERICRESPONSE._serialized_end=506
+  _CHANNELSENDMESSAGEREQUEST._serialized_start=509
+  _CHANNELSENDMESSAGEREQUEST._serialized_end=685
+  _CHANNELGETMESSAGESREQUEST._serialized_start=687
+  _CHANNELGETMESSAGESREQUEST._serialized_end=776
+  _CHANNELGETMESSAGESRESPONSE._serialized_start=778
+  _CHANNELGETMESSAGESRESPONSE._serialized_end=885
+  _CHANNELMEMBERUPDATEREQUEST._serialized_start=888
+  _CHANNELMEMBERUPDATEREQUEST._serialized_end=1112
+  _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE._serialized_start=1066
+  _CHANNELMEMBERUPDATEREQUEST_UPDATETYPE._serialized_end=1099
+  _CHANNELCREATEREQUEST._serialized_start=1115
+  _CHANNELCREATEREQUEST._serialized_end=1243
+  _CHANNELDELETEREQUEST._serialized_start=1245
+  _CHANNELDELETEREQUEST._serialized_end=1369
+  _ACCOUNT._serialized_start=1371
+  _ACCOUNT._serialized_end=1416
+  _ACCOUNTCREATEREQUEST._serialized_start=1418
+  _ACCOUNTCREATEREQUEST._serialized_end=1495
+  _ACCOUNTDELETEREQUEST._serialized_start=1497
+  _ACCOUNTDELETEREQUEST._serialized_end=1586
+  _LOGINREQUEST._serialized_start=1588
+  _LOGINREQUEST._serialized_end=1657
+  _CHATSERVER._serialized_start=1660
+  _CHATSERVER._serialized_end=2314
 # @@protoc_insertion_point(module_scope)
