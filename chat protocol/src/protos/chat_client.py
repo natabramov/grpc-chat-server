@@ -19,6 +19,8 @@ def run():
 
         timestamp = int(time.time())
 
+        
+
         # Create account
         response1 = stub.Account_Create(chat_pb2.AccountCreateRequest(
             username='natabr',
