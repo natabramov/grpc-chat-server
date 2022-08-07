@@ -129,17 +129,14 @@ class ChatServer(ChatServerServicer):
                        request: ChannelCreateRequest,
                        context) -> GenericResponse:
 
-        new_channel = Channel(topic=ChannelCreateRequest.channelname,
-                              users=ChannelCreateRequest.user)
-
         successful = True
-        if new_channel not in self._channelOwners:
+        if request.channelname not in self._channelOwners:
             print(
-                f"User {request.user.name} has created channel {request.channel}")
-            self._channelOwners[new_channel] = request.user
+                f"User {request.user.name} has created channel {request.channelname}")
+            self._channelOwners[request.channelname] = request.user
         else:
             print(
-                f"User {request.user.name} has tried to create channel {request.channel} but it already exists")
+                f"User {request.user.name} has tried to create channel {request.channelname} but it already exists")
             successful = False
 
         return GenericResponse(
@@ -170,11 +167,11 @@ class ChatServer(ChatServerServicer):
                        request: AccountCreateRequest,
                        context) -> GenericResponse:
         
-        new_account = Account(username=AccountCreateRequest.username,
-                              password=AccountCreateRequest.password)
+        new_account = Account(username=request.username,
+                              password=request.password)
 
         successful = True
-        if new_account not in self._accounts:
+        if new_account.username not in self._accounts:
             print(
                 f"Account {request.username} has been created")
             self._accounts[request.username] = request.password

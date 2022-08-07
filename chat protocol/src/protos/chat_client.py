@@ -19,49 +19,56 @@ def run():
 
         timestamp = int(time.time())
 
+        # Create account
+        response1 = stub.Account_Create(chat_pb2.AccountCreateRequest(
+            username='natabr',
+            password='hello123',
+            timestamp=timestamp))
+        print(response1.successful)
+
+        # Create channel
+        response2 = stub.Channel_Create(chat_pb2.ChannelCreateRequest(
+            user=get_auth_user(),
+            channelname='testchannel',
+            timestamp=timestamp))
+        print(response2.successful)
+
         # Join channel
-        response1 = stub.Channel_MemberUpdate(chat_pb2.ChannelMemberUpdateRequest(
+        response3 = stub.Channel_MemberUpdate(chat_pb2.ChannelMemberUpdateRequest(
             user=get_auth_user(),
             channel='testchannel',
             type=chat_pb2.ChannelMemberUpdateRequest.UpdateType.Join))
         
-        print(response1.successful)
+        print(response3.successful)
 
         # Say a message
         message = chat_pb2.ChatMessage(
             text='hello')
             
-        response2 = stub.Channel_SendMessage(chat_pb2.ChannelSendMessageRequest(
+        response4 = stub.Channel_SendMessage(chat_pb2.ChannelSendMessageRequest(
             user=get_auth_user(),
             channel='testchannel',
             chat=message,
             timestamp=timestamp))
 
-        print(response2.successful)
+        print(response4.successful)
 
         # Read messages
-        response3 = stub.Channel_GetMessages(chat_pb2.ChannelGetMessagesRequest(
+        response5 = stub.Channel_GetMessages(chat_pb2.ChannelGetMessagesRequest(
             user=get_auth_user(),
             channel='testchannel',
             since=timestamp))
 
-        for message in response3.messages:
+        for message in response5.messages:
             print(message.user + ": " + message.chat.text)
-        
+
         # Leave channel
-        response3 = stub.Channel_MemberUpdate(chat_pb2.ChannelMemberUpdateRequest(
+        response6 = stub.Channel_MemberUpdate(chat_pb2.ChannelMemberUpdateRequest(
             user=get_auth_user(),
             channel='testchannel',
             password=None,
             type=chat_pb2.ChannelMemberUpdateRequest.UpdateType.Leave))
-        print(response3.successful)
-
-        # Create account
-        response4 = stub.Account_Create(chat_pb2.AccountCreateRequest(
-            username='natabr',
-            password='hello123',
-            timestamp=timestamp))
-        print(response4.successful)
+        print(response6.successful)
 
 if __name__ == '__main__':
     logging.basicConfig()
