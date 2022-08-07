@@ -8,6 +8,11 @@ service ChatServer {
     rpc Channel_MemberUpdate (ChannelMemberUpdateRequest) returns (GenericResponse) {}
     rpc Channel_Create (ChannelCreateRequest) returns (GenericResponse) {}
     rpc Channel_Delete (ChannelDeleteRequest) returns (GenericResponse) {}
+
+    rpc Account_Create (AccountCreateRequest) returns (GenericResponse) {}
+    rpc Account_Delete (AccountCreateRequest) returns (GenericResponse) {}
+
+    rpc Login (LoginRequest) returns (GenericResponse) {}
 }
 
 message AuthUser {
@@ -83,7 +88,7 @@ message ChannelMemberUpdateRequest {
 
 message ChannelCreateRequest {
     AuthUser user = 1;
-    string channel = 2;
+    string channelname = 2;
     optional string password = 3;
     uint64 timestamp = 5;
 }
@@ -93,4 +98,27 @@ message ChannelDeleteRequest {
     string channel = 2;
     optional string password = 3;
     uint64 timestamp = 5;
+}
+
+message Account {
+    string username = 1;
+    string password = 2;
+}
+
+message AccountCreateRequest {
+    string username = 1;
+    string password = 2;
+    uint64 timestamp = 3;
+}
+
+message AccountDeleteRequest {
+    AuthUser user = 1;
+    string password = 2;
+    uint64 timestamp = 3;
+}
+
+message LoginRequest {
+    string username = 1;
+    string password = 2;
+    uint64 timestamp = 3;
 }

@@ -1,6 +1,7 @@
 from concurrent import futures
 
 import logging
+from typing import Generic
 
 import grpc
 
@@ -13,11 +14,17 @@ from chat_pb2 import ChannelMessage
 from chat_pb2 import ChannelMemberUpdateRequest
 from chat_pb2 import ChannelSendMessageRequest
 from chat_pb2 import Channel
+from chat_pb2 import AccountCreateRequest
+from chat_pb2 import AccountDeleteRequest
+from chat_pb2 import LoginRequest
+from chat_pb2 import AuthUser
 
 from chat_pb2_grpc import ChatServerServicer
 import chat_pb2_grpc
 
 import time
+
+from protos.chat_pb2 import Account
 
 
 class ChatServer(ChatServerServicer):
@@ -26,6 +33,8 @@ class ChatServer(ChatServerServicer):
         self._channelMessages = {}
         self._channelUserList = {}
         self._channelOwners = {}
+        self._accounts = {}
+        self._accountstatus = {}
 
     def _get_timestamp(self) -> int:
         return int(time.time())
@@ -156,6 +165,62 @@ class ChatServer(ChatServerServicer):
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
+
+    def Account_Create(self,
+                       request: AccountCreateRequest,
+                       context) -> GenericResponse:
+        
+        new_account = Account(username=AccountCreateRequest.username,
+                              password=AccountCreateRequest.password)
+
+        successful = True
+        if new_account not in self._accounts:
+            print(
+                f"Account {request.username} has been created")
+            self._accounts[request.username] = request.password
+            self._accountstatus[request.username] = False #not logged in yet
+        else:
+            print(
+                f"Username {request.username} already exists")
+            successful = False
+
+        return GenericResponse(
+            successful=successful,
+            timestamp=self._get_timestamp())
+
+    def Account_Delete(self,
+                       request: AccountDeleteRequest,
+                       context) -> GenericResponse:
+
+        successful = True
+
+        if self._accounts[request.username] == request.password:
+            print(
+                f"User {request.username} has deleted their account")
+            del self._accounts[request.username]
+
+        else:
+            print(
+                f"User {request.username} has tried to delete their account but the password is incorrect")
+            successful = False
+
+        return GenericResponse(
+            successful=successful,
+            timestamp=self._get_timestamp())
+        
+    def Login(self,
+              request: LoginRequest,
+              context) -> AuthUser or GenericResponse:
+        
+        if request.username == self._accounts[request.username] and request.password == self._accounts[request.password]:
+            self._accountstatus[request.username] = True #user is logged in
+            return AuthUser(name = request.username,
+                            token = 'not created yet')
+
+        else:
+            return GenericResponse(
+                successful=False,
+                timestamp=self._get_timestamp())
 
 
 def serve():

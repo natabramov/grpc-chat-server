@@ -39,6 +39,21 @@ class ChatServerStub(object):
                 request_serializer=chat__pb2.ChannelDeleteRequest.SerializeToString,
                 response_deserializer=chat__pb2.GenericResponse.FromString,
                 )
+        self.Account_Create = channel.unary_unary(
+                '/grpc.ChatServer/Account_Create',
+                request_serializer=chat__pb2.AccountCreateRequest.SerializeToString,
+                response_deserializer=chat__pb2.GenericResponse.FromString,
+                )
+        self.Account_Delete = channel.unary_unary(
+                '/grpc.ChatServer/Account_Delete',
+                request_serializer=chat__pb2.AccountCreateRequest.SerializeToString,
+                response_deserializer=chat__pb2.GenericResponse.FromString,
+                )
+        self.Login = channel.unary_unary(
+                '/grpc.ChatServer/Login',
+                request_serializer=chat__pb2.LoginRequest.SerializeToString,
+                response_deserializer=chat__pb2.GenericResponse.FromString,
+                )
 
 
 class ChatServerServicer(object):
@@ -74,6 +89,24 @@ class ChatServerServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def Account_Create(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Account_Delete(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Login(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_ChatServerServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -100,6 +133,21 @@ def add_ChatServerServicer_to_server(servicer, server):
             'Channel_Delete': grpc.unary_unary_rpc_method_handler(
                     servicer.Channel_Delete,
                     request_deserializer=chat__pb2.ChannelDeleteRequest.FromString,
+                    response_serializer=chat__pb2.GenericResponse.SerializeToString,
+            ),
+            'Account_Create': grpc.unary_unary_rpc_method_handler(
+                    servicer.Account_Create,
+                    request_deserializer=chat__pb2.AccountCreateRequest.FromString,
+                    response_serializer=chat__pb2.GenericResponse.SerializeToString,
+            ),
+            'Account_Delete': grpc.unary_unary_rpc_method_handler(
+                    servicer.Account_Delete,
+                    request_deserializer=chat__pb2.AccountCreateRequest.FromString,
+                    response_serializer=chat__pb2.GenericResponse.SerializeToString,
+            ),
+            'Login': grpc.unary_unary_rpc_method_handler(
+                    servicer.Login,
+                    request_deserializer=chat__pb2.LoginRequest.FromString,
                     response_serializer=chat__pb2.GenericResponse.SerializeToString,
             ),
     }
@@ -193,6 +241,57 @@ class ChatServer(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Channel_Delete',
             chat__pb2.ChannelDeleteRequest.SerializeToString,
+            chat__pb2.GenericResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Account_Create(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Account_Create',
+            chat__pb2.AccountCreateRequest.SerializeToString,
+            chat__pb2.GenericResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Account_Delete(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Account_Delete',
+            chat__pb2.AccountCreateRequest.SerializeToString,
+            chat__pb2.GenericResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Login(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Login',
+            chat__pb2.LoginRequest.SerializeToString,
             chat__pb2.GenericResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
