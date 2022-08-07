@@ -56,6 +56,13 @@ def run():
             type=chat_pb2.ChannelMemberUpdateRequest.UpdateType.Leave))
         print(response3.successful)
 
+        # Create account
+        response4 = stub.Account_Create(chat_pb2.AccountCreateRequest(
+            username='natabr',
+            password='hello123',
+            timestamp=timestamp))
+        print(response4.successful)
+
 if __name__ == '__main__':
     logging.basicConfig()
     run()

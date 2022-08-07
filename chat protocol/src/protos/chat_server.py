@@ -24,7 +24,7 @@ import chat_pb2_grpc
 
 import time
 
-from protos.chat_pb2 import Account
+from chat_pb2 import Account
 
 
 class ChatServer(ChatServerServicer):
