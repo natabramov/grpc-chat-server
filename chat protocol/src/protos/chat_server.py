@@ -43,6 +43,13 @@ class ChatServer(ChatServerServicer):
         print(
             f"Handling send message request for channel {request.channel} from user {request.user.name}")
 
+    def Status(self):
+        print('self._channelMessages: ', self._channelMessages,'\n',
+              'self._channelUserList: ', self._channelUserList, '\n',
+              'self._channelOwners: ', self._channelOwners, '\n',
+              'self._accounts: ', self._accounts, '\n',
+              'self._accountstatus: ', self._accountstatus)
+
     def _extract_message(
             self,
             request: ChannelSendMessageRequest) -> ChannelMessage:
@@ -55,6 +62,7 @@ class ChatServer(ChatServerServicer):
         elif request.HasField("image"):
             channel_message.image.CopyFrom(request.image)
 
+        self.Status()
         return channel_message
 
     def Channel_SendMessage(
@@ -71,7 +79,7 @@ class ChatServer(ChatServerServicer):
             f"Adding message to channel {request.channel} from user {request.user.name}")
         self._channelMessages[request.channel].append(
             self._extract_message(request))
-
+        self.Status()
         return GenericResponse(
             successful=True,
             timestamp=self._get_timestamp())
@@ -97,7 +105,7 @@ class ChatServer(ChatServerServicer):
 
         print(
             f"User {request.user.name} requested messages since {request.since}. Returning {len(response.messages)} messages")
-
+        self.Status()
         return response
 
     def Channel_MemberUpdate(
@@ -120,7 +128,7 @@ class ChatServer(ChatServerServicer):
             print(
                 f"User {request.user.name} has left channel {request.channel}")
             self._channelUserList[request.channel].remove(request.user)
-
+        self.Status()
         return GenericResponse(
             successful=True,
             timestamp=self._get_timestamp())
@@ -138,7 +146,7 @@ class ChatServer(ChatServerServicer):
             print(
                 f"User {request.user.name} has tried to create channel {request.channelname} but it already exists")
             successful = False
-
+        self.Status()
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
@@ -158,7 +166,7 @@ class ChatServer(ChatServerServicer):
             print(
                 f"User {request.user.name} has tried to delete channel {request.channel} but they aren't allowed to")
             successful = False
-
+        self.Status()
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
@@ -180,7 +188,7 @@ class ChatServer(ChatServerServicer):
             print(
                 f"Username {request.username} already exists")
             successful = False
-
+        self.Status()
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
@@ -200,7 +208,7 @@ class ChatServer(ChatServerServicer):
             print(
                 f"User {request.username} has tried to delete their account but the password is incorrect")
             successful = False
-
+        
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
@@ -211,14 +219,15 @@ class ChatServer(ChatServerServicer):
         
         if request.username == self._accounts[request.username] and request.password == self._accounts[request.password]:
             self._accountstatus[request.username] = True #user is logged in
+            self.Status()
             return AuthUser(name = request.username,
                             token = 'not created yet')
 
         else:
+            self.Status()
             return GenericResponse(
                 successful=False,
                 timestamp=self._get_timestamp())
-
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))

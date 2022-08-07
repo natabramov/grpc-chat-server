@@ -13,6 +13,12 @@ service ChatServer {
     rpc Account_Delete (AccountCreateRequest) returns (GenericResponse) {}
 
     rpc Login (LoginRequest) returns (GenericResponse) {}
+
+    rpc Status (Empty) returns (GenericResponse) {}
+}
+
+message Empty {
+
 }
 
 message AuthUser {
