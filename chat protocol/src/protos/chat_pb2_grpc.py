@@ -52,7 +52,7 @@ class ChatServerStub(object):
         self.Login = channel.unary_unary(
                 '/grpc.ChatServer/Login',
                 request_serializer=chat__pb2.LoginRequest.SerializeToString,
-                response_deserializer=chat__pb2.GenericResponse.FromString,
+                response_deserializer=chat__pb2.AuthUser.FromString,
                 )
         self.Status = channel.unary_unary(
                 '/grpc.ChatServer/Status',
@@ -159,7 +159,7 @@ def add_ChatServerServicer_to_server(servicer, server):
             'Login': grpc.unary_unary_rpc_method_handler(
                     servicer.Login,
                     request_deserializer=chat__pb2.LoginRequest.FromString,
-                    response_serializer=chat__pb2.GenericResponse.SerializeToString,
+                    response_serializer=chat__pb2.AuthUser.SerializeToString,
             ),
             'Status': grpc.unary_unary_rpc_method_handler(
                     servicer.Status,
@@ -308,7 +308,7 @@ class ChatServer(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Login',
             chat__pb2.LoginRequest.SerializeToString,
-            chat__pb2.GenericResponse.FromString,
+            chat__pb2.AuthUser.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

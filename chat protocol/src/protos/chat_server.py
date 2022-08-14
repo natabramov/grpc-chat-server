@@ -48,11 +48,15 @@ class ChatServer(ChatServerServicer):
                request: Empty,
                context):
                
-        print('self._channelMessages: ', self._channelMessages,'\n',
+        print('\n,','self._channelMessages: ', self._channelMessages,'\n',
               'self._channelUserList: ', self._channelUserList, '\n',
               'self._channelOwners: ', self._channelOwners, '\n',
               'self._accounts: ', self._accounts, '\n',
               'self._accountstatus: ', self._accountstatus)
+
+        return GenericResponse(
+            successful=True,
+            timestamp=self._get_timestamp())
 
     def _extract_message(
             self,
@@ -192,7 +196,7 @@ class ChatServer(ChatServerServicer):
             print(
                 f"Username {request.username} already exists")
             successful = False
-        #self.Status()
+
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
@@ -221,17 +225,14 @@ class ChatServer(ChatServerServicer):
               request: LoginRequest,
               context) -> AuthUser or GenericResponse:
         
-        if request.username == self._accounts[request.username] and request.password == self._accounts[request.password]:
+        if request.password == self._accounts[request.username]:
             self._accountstatus[request.username] = True #user is logged in
-            #self.Status()
             return AuthUser(name = request.username,
                             token = 'not created yet')
 
         else:
-            #self.Status()
-            return GenericResponse(
-                successful=False,
-                timestamp=self._get_timestamp())
+            return AuthUser(name = request.username,
+                            token = 'invalid')
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
