@@ -10,7 +10,7 @@ service ChatServer {
     rpc Channel_Delete (ChannelDeleteRequest) returns (GenericResponse) {}
 
     rpc Account_Create (AccountCreateRequest) returns (GenericResponse) {}
-    rpc Account_Delete (AccountCreateRequest) returns (GenericResponse) {}
+    rpc Account_Delete (AccountDeleteRequest) returns (GenericResponse) {}
 
     rpc Login (LoginRequest) returns (AuthUser) {}
 

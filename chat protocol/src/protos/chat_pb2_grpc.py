@@ -46,7 +46,7 @@ class ChatServerStub(object):
                 )
         self.Account_Delete = channel.unary_unary(
                 '/grpc.ChatServer/Account_Delete',
-                request_serializer=chat__pb2.AccountCreateRequest.SerializeToString,
+                request_serializer=chat__pb2.AccountDeleteRequest.SerializeToString,
                 response_deserializer=chat__pb2.GenericResponse.FromString,
                 )
         self.Login = channel.unary_unary(
@@ -153,7 +153,7 @@ def add_ChatServerServicer_to_server(servicer, server):
             ),
             'Account_Delete': grpc.unary_unary_rpc_method_handler(
                     servicer.Account_Delete,
-                    request_deserializer=chat__pb2.AccountCreateRequest.FromString,
+                    request_deserializer=chat__pb2.AccountDeleteRequest.FromString,
                     response_serializer=chat__pb2.GenericResponse.SerializeToString,
             ),
             'Login': grpc.unary_unary_rpc_method_handler(
@@ -290,7 +290,7 @@ class ChatServer(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/grpc.ChatServer/Account_Delete',
-            chat__pb2.AccountCreateRequest.SerializeToString,
+            chat__pb2.AccountDeleteRequest.SerializeToString,
             chat__pb2.GenericResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
