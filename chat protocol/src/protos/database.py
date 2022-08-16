@@ -73,14 +73,15 @@ def main():
 
     with conn:
         # create a new project
-        cred = ('natabr', 'hello123')
-        #create_cred(conn, cred)
+        cred = ('catcat', 'kiwi55!')
+        create_cred(conn, cred)
         read_cred(conn,cred)
-        delete_cred(conn, cred)
+        #print(read_cred(conn, cred)[0])
+        #delete_cred(conn, cred)
 
-        cred2 = ('natabr2', 'hello123')
+        #cred2 = ('natabr2', 'hello123')
         #create_cred(conn, cred)
-        delete_cred(conn, cred2)
+        #delete_cred(conn, cred2)
 
     # # # create tables
     # if conn is not None:

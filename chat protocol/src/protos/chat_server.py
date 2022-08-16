@@ -38,7 +38,7 @@ class ChatServer(ChatServerServicer):
         self._channelMessages = {}
         self._channelUserList = {}
         self._channelOwners = {}
-        self._accounts = {}
+        #self._accounts = {}
         self._accountstatus = {}
 
     def _get_timestamp(self) -> int:
@@ -54,9 +54,8 @@ class ChatServer(ChatServerServicer):
                
         print('\n,','self._channelMessages: ', self._channelMessages,'\n',
               'self._channelUserList: ', self._channelUserList, '\n',
-              'self._channelOwners: ', self._channelOwners, '\n',
-              'self._accounts: ', self._accounts, '\n',
-              'self._accountstatus: ', self._accountstatus)
+              'self._channelOwners: ', self._channelOwners, '\n')
+              #'self._accountstatus: ', self._accountstatus
 
         return GenericResponse(
             successful=True,
@@ -196,7 +195,7 @@ class ChatServer(ChatServerServicer):
 
         successful = True
         # idk if this works
-        if read_cred(conn, cred):
+        if read_cred(conn, cred) is None:
             print(
                 f"Account {request.username} has been created")
             #self._accounts[request.username] = request.password
@@ -207,11 +206,10 @@ class ChatServer(ChatServerServicer):
                 print(
                     f"Username {request.username} already exists")
                 successful = False
-            
-        # else:
-        #     print(
-        #         f"Username {request.username} already exists")
-        #     successful = False
+        else:
+            print(
+            f"Username {request.username} already exists")
+            successful = False
 
         return GenericResponse(
             successful=successful,
@@ -223,17 +221,22 @@ class ChatServer(ChatServerServicer):
 
         successful = True
 
-        if self._accounts[request.username] == request.password:
-            print(
-                f"User {request.username} has deleted their account")
-            del self._accounts[request.username]
-            conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
-            cred = (request.username, request.password)
-            delete_cred(conn, cred)
+        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        cred = (request.user.name, request.password)
 
-        else:
+        #if self._accounts[request.username] == request.password:
+        try:
+            if read_cred(conn, cred)[0] == request.user.name and read_cred(conn, cred)[1] == request.password:
+                print(
+                    f"User {request.user.name} has deleted their account")
+                #del self._accounts[request.username]
+                conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+                cred = (request.user.name, request.password)
+                delete_cred(conn, cred)
+
+        except TypeError:
             print(
-                f"User {request.username} has tried to delete their account but the password is incorrect")
+                f"User {request.user.name} has tried to delete their account but the username or password is incorrect")
             successful = False
         
         return GenericResponse(
@@ -244,7 +247,11 @@ class ChatServer(ChatServerServicer):
               request: LoginRequest,
               context) -> AuthUser or GenericResponse:
         
-        if request.password == self._accounts[request.username]:
+        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        cred = (request.username, request.password)
+
+        #if self._accounts[request.username] == request.password:
+        if read_cred(conn, cred)[0] == request.username and read_cred(conn, cred)[1] == request.password:
             self._accountstatus[request.username] = True #user is logged in
             return AuthUser(name = request.username,
                             token = 'not created yet')
