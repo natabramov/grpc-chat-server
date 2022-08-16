@@ -1,6 +1,7 @@
 from concurrent import futures
 
 import logging
+from sqlite3 import IntegrityError
 from typing import Generic
 
 import grpc
@@ -19,14 +20,17 @@ from chat_pb2 import AccountDeleteRequest
 from chat_pb2 import LoginRequest
 from chat_pb2 import AuthUser
 from chat_pb2 import Empty
+from chat_pb2 import Account
 
 from chat_pb2_grpc import ChatServerServicer
 import chat_pb2_grpc
 
 import time
 
-from chat_pb2 import Account
-
+from database import create_connection
+from database import create_cred
+from database import delete_cred
+from database import read_cred
 
 class ChatServer(ChatServerServicer):
 
@@ -186,16 +190,28 @@ class ChatServer(ChatServerServicer):
         new_account = Account(username=request.username,
                               password=request.password)
 
+
+        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        cred = (request.username, request.password)
+
         successful = True
-        if new_account.username not in self._accounts:
+        # idk if this works
+        if read_cred(conn, cred):
             print(
                 f"Account {request.username} has been created")
-            self._accounts[request.username] = request.password
-            self._accountstatus[request.username] = False #not logged in yet
-        else:
-            print(
-                f"Username {request.username} already exists")
-            successful = False
+            #self._accounts[request.username] = request.password
+            #self._accountstatus[request.username] = False #not logged in yet
+            try:
+                create_cred(conn, cred)
+            except IntegrityError:
+                print(
+                    f"Username {request.username} already exists")
+                successful = False
+            
+        # else:
+        #     print(
+        #         f"Username {request.username} already exists")
+        #     successful = False
 
         return GenericResponse(
             successful=successful,
@@ -211,6 +227,9 @@ class ChatServer(ChatServerServicer):
             print(
                 f"User {request.username} has deleted their account")
             del self._accounts[request.username]
+            conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+            cred = (request.username, request.password)
+            delete_cred(conn, cred)
 
         else:
             print(

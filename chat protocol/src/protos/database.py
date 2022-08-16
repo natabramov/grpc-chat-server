@@ -45,10 +45,19 @@ def create_cred(conn, cred):
     return print(cur.fetchall())
 
 def delete_cred(conn, cred):
-    sql = ''' DELETE from credentials where username = ''' + str(cred[0])
+    sql = ''' DELETE FROM credentials WHERE username = \"''' + str(cred[0]) + "\""
     cur = conn.cursor()
-    cur.execute(sql, cred)
+    cur.execute(sql)
     conn.commit()
+
+def read_cred(conn, cred):
+    sql = ''' SELECT * FROM credentials WHERE username = \"''' + str(cred[0]) + "\""
+    cur = conn.cursor()
+    cur.execute(sql)
+    #conn.commit()
+    rows = cur.fetchall()
+    for row in rows:
+        print(row)
 
 def main():
     database = r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db"
@@ -66,6 +75,7 @@ def main():
         # create a new project
         cred = ('natabr', 'hello123')
         #create_cred(conn, cred)
+        read_cred(conn,cred)
         delete_cred(conn, cred)
 
         cred2 = ('natabr2', 'hello123')
