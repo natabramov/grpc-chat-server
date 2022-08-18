@@ -73,8 +73,8 @@ def main():
 
     with conn:
         # create a new project
-        cred = ('catcat', 'kiwi55!')
-        create_cred(conn, cred)
+        cred = ('fatcat', 'kiwi55!')
+        #create_cred(conn, cred)
         read_cred(conn,cred)
         #print(read_cred(conn, cred)[0])
         #delete_cred(conn, cred)
