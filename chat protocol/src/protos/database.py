@@ -55,9 +55,7 @@ def read_cred(conn, cred):
     cur = conn.cursor()
     cur.execute(sql)
     #conn.commit()
-    rows = cur.fetchall()
-    for row in rows:
-        print(row)
+    return cur.fetchall()
 
 def main():
     database = r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db"
@@ -75,7 +73,7 @@ def main():
         # create a new project
         cred = ('fatcat', 'kiwi55!')
         #create_cred(conn, cred)
-        read_cred(conn,cred)
+        print(read_cred(conn,cred))
         #print(read_cred(conn, cred)[0])
         #delete_cred(conn, cred)
 

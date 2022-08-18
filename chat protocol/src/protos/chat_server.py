@@ -226,7 +226,7 @@ class ChatServer(ChatServerServicer):
 
         #if self._accounts[request.username] == request.password:
         try:
-            if read_cred(conn, cred)[0] == request.user.name and read_cred(conn, cred)[1] == request.password:
+            if read_cred(conn, cred)[0][0] == request.user.name and read_cred(conn, cred)[0][1] == request.password:
                 print(
                     f"User {request.user.name} has deleted their account")
                 #del self._accounts[request.username]
