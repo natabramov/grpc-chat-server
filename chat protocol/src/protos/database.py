@@ -30,6 +30,13 @@ def create_table(conn, create_table_sql):
     except Error as e:
         print(e)
 
+def alter_table(conn, alter_table_sql):
+    try:
+        c = conn.cursor()
+        c.execute(alter_table_sql)
+    except Error as e:
+        print(e)    
+
 def create_cred(conn, cred):
     """
     Create a new project into the projects table
@@ -57,34 +64,68 @@ def read_cred(conn, cred):
     #conn.commit()
     return cur.fetchall()
 
+def create_channel_owner(conn, cred):
+    """
+    Create a new project into the projects table
+    :param conn:
+    :param project:
+    :return: project id
+    """
+    sql = ''' INSERT INTO channel_owners 
+              VALUES(?,?,?) '''
+    cur = conn.cursor()
+    cur.execute(sql, cred)
+    conn.commit()
+
+def delete_channel_owner(conn, cred):
+    sql = ''' DELETE FROM channel_owners WHERE channel = \"''' + str(cred[0]) + "\""
+    cur = conn.cursor()
+    cur.execute(sql)
+    conn.commit()
+
+def read_channel_owner(conn, cred):
+    sql = ''' SELECT * FROM channel_owners WHERE channel = \"''' + str(cred[0]) + "\""
+    cur = conn.cursor()
+    cur.execute(sql)
+    #conn.commit()
+    return cur.fetchall()
+
 def main():
     database = r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db"
 
-    sql_create_cred_table = ''' CREATE TABLE IF NOT EXISTS credentials (
-                                    username text NOT NULL,
-                                    password text NOT NULL,
-                                    UNIQUE(username)
-                                ); '''
+    # sql_create_cred_table = ''' CREATE TABLE IF NOT EXISTS channel_owners (
+    #                                 channel text NOT NULL,
+    #                                 owner text NOT NULL,
+    #                                 UNIQUE(channel)
+    #                             ); '''
+
+
+    sql_alter_table = ''' ALTER TABLE channel_owners 
+                            ADD password text NULL; '''
 
     # create a database connection
     conn = create_connection(database)
 
     with conn:
-        # create a new project
-        cred = ('fatcat', 'kiwi55!')
-        #create_cred(conn, cred)
-        print(read_cred(conn,cred))
-        #print(read_cred(conn, cred)[0])
-        #delete_cred(conn, cred)
+    #     cred = ('testchannel', 'natabr')
+        #create_channel_owner(conn, cred)
+        #print(read_cred(conn,cred))
+        # print(read_channel_owner(conn, cred))
+        # delete_cred(conn, cred)
+        # delete_channel_owner(conn, cred)
+        # print(read_channel_owner(conn, cred))
+        cred = ('testchannel', 'natabr', '')
+        print(read_channel_owner(conn, cred))
 
-        #cred2 = ('natabr2', 'hello123')
+        # cred2 = ('fattykitty3', 'kiwi55!')
         #create_cred(conn, cred)
+        # print(read_cred(conn, cred2))
         #delete_cred(conn, cred2)
 
-    # # # create tables
+    # create tables
     # if conn is not None:
-    #     # create projects table
-    #     create_table(conn, sql_create_cred_table)
+    #     create projects table
+    #     create_table(conn, sql_alter_table)
 
     # else:
     #     print("Error! cannot create the database connection.")
