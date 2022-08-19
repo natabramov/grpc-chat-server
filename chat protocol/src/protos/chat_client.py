@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import logging
+from webbrowser import get
 
 import grpc
 import chat_pb2
@@ -35,6 +36,7 @@ def run():
         response2 = stub.Channel_Create(chat_pb2.ChannelCreateRequest(
             user=get_auth_user(),
             channelname='testchannel',
+            password='hello',
             timestamp=timestamp))
         print('created channel testchannel: ', response2.successful)
         status2 = stub.Status(chat_pb2.Empty())
@@ -108,6 +110,16 @@ def run():
         print('fatcat delete account: ', response10.successful)
         status10 = stub.Status(chat_pb2.Empty())
         print('status10: ', status10.successful)    
+
+        # Delete channel
+        response11 = stub.Channel_Delete(chat_pb2.ChannelDeleteRequest(
+            user=get_auth_user(),
+            channel='testchannel',
+            password='hello',
+            timestamp=timestamp))
+        print('delete testchannel: ', response11.successful)
+        status11 = stub.Status(chat_pb2.Empty())
+        print('status11: ', status11.successful)   
 
 if __name__ == '__main__':
     logging.basicConfig()

@@ -31,6 +31,9 @@ from database import create_connection
 from database import create_cred
 from database import delete_cred
 from database import read_cred
+from database import read_channel_owner
+from database import create_channel_owner
+from database import delete_channel_owner
 
 class ChatServer(ChatServerServicer):
 
@@ -148,11 +151,21 @@ class ChatServer(ChatServerServicer):
                        request: ChannelCreateRequest,
                        context) -> GenericResponse:
 
+        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        cred = (request.channelname, request.user.name, request.password)
+
         successful = True
-        if request.channelname not in self._channelOwners:
+        if not read_channel_owner(conn, cred):
             print(
                 f"User {request.user.name} has created channel {request.channelname}")
-            self._channelOwners[request.channelname] = request.user
+            #self._channelOwners[request.channelname] = request.user
+            try:
+                create_channel_owner(conn, cred)
+            except IntegrityError:
+                print(
+                    f"User {request.user.name} has tried to create channel {request.channelname} but it already exists")
+                successful = False
+        # might need to remove the else
         else:
             print(
                 f"User {request.user.name} has tried to create channel {request.channelname} but it already exists")
@@ -166,18 +179,22 @@ class ChatServer(ChatServerServicer):
                        request: ChannelDeleteRequest,
                        context) -> GenericResponse:
 
+        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        cred = (request.channel, request.user.name, request.password)
+
         successful = True
-        if self._channelOwners[request.channel] == request.user:
-            print(
-                f"User {request.user.name} has deleted channel {request.channel}")
-            del self._channelUserList[request.channel]
-            del self._channelOwners[request.channel]
-            del self._channelMessages[request.channel]
-        else:
+        #if self._channelOwners[request.channel] == request.user:
+        try:
+            if read_channel_owner(conn, cred)[0][0] == request.channel and read_channel_owner(conn, cred)[0][1] == request.user.name and read_channel_owner(conn, cred)[0][2] == request.password:
+                print(
+                    f"User {request.user.name} has deleted channel {request.channel}")
+                    #del self._accounts[request.username]
+                delete_channel_owner(conn, cred)
+
+        except TypeError:
             print(
                 f"User {request.user.name} has tried to delete channel {request.channel} but they aren't allowed to")
-            successful = False
-        #self.Status()
+
         return GenericResponse(
             successful=successful,
             timestamp=self._get_timestamp())
@@ -194,8 +211,7 @@ class ChatServer(ChatServerServicer):
         cred = (request.username, request.password)
 
         successful = True
-        # idk if this works
-        if read_cred(conn, cred) is None:
+        if not read_cred(conn, cred):
             print(
                 f"Account {request.username} has been created")
             #self._accounts[request.username] = request.password
@@ -231,10 +247,9 @@ class ChatServer(ChatServerServicer):
                     f"User {request.user.name} has deleted their account")
                 #del self._accounts[request.username]
                 conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
-                cred = (request.user.name, request.password)
                 delete_cred(conn, cred)
 
-        except TypeError:
+        except (TypeError, IndexError) as e:
             print(
                 f"User {request.user.name} has tried to delete their account but the username or password is incorrect")
             successful = False
