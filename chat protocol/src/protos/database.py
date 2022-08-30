@@ -28,68 +28,62 @@ def alter_table(conn, alter_table_sql):
         print(e)    
 
 def create_cred(conn, cred):
-    sql = ''' INSERT INTO credentials 
-              VALUES(?,?) '''
+    sql = "INSERT INTO credentials VALUES(?,?)"
     cur = conn.cursor()
     cur.execute(sql, cred)
     conn.commit()
     return print(cur.fetchall())
 
 def delete_cred(conn, cred):
-    sql = ''' DELETE FROM credentials WHERE username = \"''' + str(cred[0]) + "\""
+    sql = f"DELETE FROM credentials WHERE username = \"{str(cred[0])}\""
     cur = conn.cursor()
     cur.execute(sql)
     conn.commit()
 
 def read_cred(conn, cred):
-    sql = ''' SELECT * FROM credentials WHERE username = \"''' + str(cred[0]) + "\""
+    sql = f"SELECT * FROM credentials WHERE username = \"{str(cred[0])}\""
     cur = conn.cursor()
     cur.execute(sql)
-    #conn.commit()
     return cur.fetchall()
 
 def create_channel_owner(conn, cred):
-    sql = ''' INSERT INTO channel_owners 
-              VALUES(?,?,?) '''
+    sql = "INSERT INTO channel_owners VALUES(?,?,?)"
     cur = conn.cursor()
     cur.execute(sql, cred)
     conn.commit()
 
 def delete_channel_owner(conn, cred):
-    sql = ''' DELETE FROM channel_owners WHERE channel = \"''' + str(cred[0]) + "\""
+    sql = f"DELETE FROM channel_owners WHERE channel = \"{str(cred[0])}\""
     cur = conn.cursor()
     cur.execute(sql)
     conn.commit()
 
 def read_channel_owner(conn, cred):
-    sql = ''' SELECT * FROM channel_owners WHERE channel = \"''' + str(cred[0]) + "\""
+    sql = f"SELECT * FROM channel_owners WHERE channel = \"{str(cred[0])}\""
     cur = conn.cursor()
     cur.execute(sql)
-    #conn.commit()
     return cur.fetchall()
 
 def add_account_status(conn, cred):
-    sql = ''' INSERT INTO account_status 
-              VALUES(?,?) '''
+    sql = "INSERT INTO account_status VALUES(?,?)"
     cur = conn.cursor()
     cur.execute(sql, cred)
     conn.commit()
 
 def update_account_status(conn, cred):
-    sql = f"UPDATE account_status SET status = {int(cred[1])} WHERE username = '{str(cred[0])}'"
+    sql = f"UPDATE account_status SET status = {int(cred[1])} WHERE username = \"{str(cred[0])}\""
     cur = conn.cursor()
-    cur.execute(sql, cred)
+    cur.execute(sql)
     conn.commit()
 
 def read_status(conn, cred):
-    sql = ''' SELECT * FROM acc WHERE username = \"''' + str(cred[0]) + "\""
+    sql = f"SELECT * FROM acc WHERE username = \"{str(cred[0])}\""
     cur = conn.cursor()
     cur.execute(sql)
-    #conn.commit()
     return cur.fetchall()
 
 def delete_account_status(conn, cred):
-    sql = ''' DELETE FROM account_status WHERE username = \"''' + str(cred[0]) + "\""
+    sql = f"DELETE FROM account_status WHERE username = \"{str(cred[0])}\""
     cur = conn.cursor()
     cur.execute(sql)
     conn.commit()
