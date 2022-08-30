@@ -34,6 +34,9 @@ from database import read_cred
 from database import read_channel_owner
 from database import create_channel_owner
 from database import delete_channel_owner
+from database import add_account_status
+from database import update_account_status
+from database import delete_account_status
 
 class ChatServer(ChatServerServicer):
 
@@ -216,6 +219,7 @@ class ChatServer(ChatServerServicer):
                 f"Account {request.username} has been created")
             #self._accounts[request.username] = request.password
             #self._accountstatus[request.username] = False #not logged in yet
+            add_account_status(conn, (request.username, 0))
             try:
                 create_cred(conn, cred)
             except IntegrityError:
@@ -248,7 +252,7 @@ class ChatServer(ChatServerServicer):
                 #del self._accounts[request.username]
                 conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
                 delete_cred(conn, cred)
-
+                delete_account_status(conn, cred)
         except (TypeError, IndexError) as e:
             print(
                 f"User {request.user.name} has tried to delete their account but the username or password is incorrect")
@@ -266,8 +270,9 @@ class ChatServer(ChatServerServicer):
         cred = (request.username, request.password)
 
         #if self._accounts[request.username] == request.password:
-        if read_cred(conn, cred)[0] == request.username and read_cred(conn, cred)[1] == request.password:
-            self._accountstatus[request.username] = True #user is logged in
+        if read_cred(conn, cred)[0][0] == request.username and read_cred(conn, cred)[0][1] == request.password:
+            #self._accountstatus[request.username] = True #user is logged in
+            update_account_status(conn, (request.username, 1))
             return AuthUser(name = request.username,
                             token = 'not created yet')
 

@@ -25,12 +25,20 @@ def run():
 
         # Create account
         response1 = stub.Account_Create(chat_pb2.AccountCreateRequest(
-            username='fatcat',
-            password='hello123',
+            username='natalie',
+            password='hello',
             timestamp=timestamp))
-        print('created account natabr: ', response1.successful)
+        print('created account fatcat: ', response1.successful)
         status1 = stub.Status(chat_pb2.Empty())
         print('status1: ', status1.successful)
+
+        response12 = stub.Login(chat_pb2.LoginRequest(
+            username = 'natalie',
+            password='hello',
+            timestamp=timestamp))
+        print('login natabr: ', response12.name)
+        status12 = stub.Status(chat_pb2.Empty())
+        print('status12: ', status12.successful)
 
         # Create channel
         response2 = stub.Channel_Create(chat_pb2.ChannelCreateRequest(
@@ -103,13 +111,13 @@ def run():
         print('status9: ', status9.successful)
 
         # Delete account
-        response10 = stub.Account_Delete(chat_pb2.AccountDeleteRequest(
-            user=chat_pb2.AuthUser(name='fatcat',token='not created yet'),
-            password='kiwi55!',
-            timestamp=timestamp))
-        print('fatcat delete account: ', response10.successful)
-        status10 = stub.Status(chat_pb2.Empty())
-        print('status10: ', status10.successful)    
+        # response10 = stub.Account_Delete(chat_pb2.AccountDeleteRequest(
+        #     user=chat_pb2.AuthUser(name='fatcat',token='not created yet'),
+        #     password='kiwi55!',
+        #     timestamp=timestamp))
+        # print('fatcat delete account: ', response10.successful)
+        # status10 = stub.Status(chat_pb2.Empty())
+        # print('status10: ', status10.successful)    
 
         # Delete channel
         response11 = stub.Channel_Delete(chat_pb2.ChannelDeleteRequest(
