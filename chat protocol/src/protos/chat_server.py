@@ -46,6 +46,7 @@ class ChatServer(ChatServerServicer):
         self._channelOwners = {}
         #self._accounts = {}
         self._accountstatus = {}
+        self._dbpath = r"..\..\..\..\\summer-project\sqlite\db\pythonsqlite2.db"
 
     def _get_timestamp(self) -> int:
         return int(time.time())
@@ -154,7 +155,7 @@ class ChatServer(ChatServerServicer):
                        request: ChannelCreateRequest,
                        context) -> GenericResponse:
 
-        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        conn = create_connection(self._dbpath)
         cred = (request.channelname, request.user.name, request.password)
 
         successful = True
@@ -182,7 +183,7 @@ class ChatServer(ChatServerServicer):
                        request: ChannelDeleteRequest,
                        context) -> GenericResponse:
 
-        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        conn = create_connection(self._dbpath)
         cred = (request.channel, request.user.name, request.password)
 
         successful = True
@@ -210,7 +211,7 @@ class ChatServer(ChatServerServicer):
                               password=request.password)
 
 
-        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        conn = create_connection(self._dbpath)
         cred = (request.username, request.password)
 
         successful = True
@@ -241,7 +242,7 @@ class ChatServer(ChatServerServicer):
 
         successful = True
 
-        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        conn = create_connection(self._dbpath)
         cred = (request.user.name, request.password)
 
         #if self._accounts[request.username] == request.password:
@@ -250,7 +251,7 @@ class ChatServer(ChatServerServicer):
                 print(
                     f"User {request.user.name} has deleted their account")
                 #del self._accounts[request.username]
-                conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+                conn = create_connection(self._dbpath)
                 delete_cred(conn, cred)
                 delete_account_status(conn, cred)
         except (TypeError, IndexError) as e:
@@ -266,12 +267,11 @@ class ChatServer(ChatServerServicer):
               request: LoginRequest,
               context) -> AuthUser or GenericResponse:
         
-        conn = create_connection(r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db")
+        conn = create_connection(self._dbpath)
         cred = (request.username, request.password)
 
-        #if self._accounts[request.username] == request.password:
-        if read_cred(conn, cred)[0][0] == request.username and read_cred(conn, cred)[0][1] == request.password:
-            #self._accountstatus[request.username] = True #user is logged in
+        db_credentials = read_cred(conn, cred)
+        if db_credentials[0][0] == request.username and db_credentials[0][1] == request.password:
             update_account_status(conn, (request.username, 1))
             return AuthUser(name = request.username,
                             token = 'not created yet')
