@@ -88,6 +88,50 @@ def delete_account_status(conn, cred):
     cur.execute(sql)
     conn.commit()
 
+def create_channel_users_table(conn, cred):
+    sql_create_channel_users_table = f''' CREATE TABLE IF NOT EXISTS \'''{str(cred[1])}\''' (
+                                            user text
+                                        ); '''
+    try:
+        c = conn.cursor()
+        c.execute(sql_create_channel_users_table)
+    except Error as e:
+        print(e)
+
+def add_channel_user(conn, cred):
+    sql = f"INSERT INTO \'''{str(cred[1])}\''' VALUES(?)"
+    cur = conn.cursor()
+    cur.execute(sql, cred[0])
+    conn.commit()
+
+def delete_channel_user(conn, cred):
+    sql = f"DELETE FROM \'''{str(cred[1])}\''' WHERE username = \"{str(cred[0])}\""
+    cur = conn.cursor()
+    cur.execute(sql)
+    conn.commit()
+
+def delete_channel_table(conn, cred):
+    sql = f"DROP TABLE \'''{str(cred[1])}\'''"
+    cur = conn.cursor()
+    cur.execute(sql)
+    conn.commit()
+
+def channel_table_exists(conn, cred):
+    exists = False
+    sql = f"SELECT user FROM sqlite_master WHERE type='table' AND name = \'''{str(cred[1])}\''';"
+    cur = conn.cursor()
+    cur.execute(sql)
+    if cur.fetchone()[0] == 1 :
+        exists = True		
+    conn.commit()
+    return exists
+
+def read_channel_table(conn, cred):
+    sql = f"SELECT * FROM \'''{str(cred[1])}\''' WHERE username = \"{str(cred[0])}\""
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchall()
+
 def main():
     database = r"C:\Users\Natalie\summer-project\chat-server\summer-project\sqlite\db\pythonsqlite2.db"
 
