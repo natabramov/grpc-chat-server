@@ -37,6 +37,13 @@ from database import delete_channel_owner
 from database import add_account_status
 from database import update_account_status
 from database import delete_account_status
+from database import create_channel_users_table
+from database import add_channel_user
+from database import delete_channel_user
+from database import delete_channel_table
+from database import channel_table_exists
+from database import read_channel_table
+
 
 class ChatServer(ChatServerServicer):
 
@@ -132,20 +139,41 @@ class ChatServer(ChatServerServicer):
             context) -> GenericResponse:
 
         self._print_debug_entry(request)
+        conn = create_connection(self._dbpath)
+        cred = (request.user.name, request.channel)
 
-        if request.channel not in self._channelUserList:
-            self._channelUserList[request.channel] = []
+        # if request.channel not in self._channelUserList:
+        #     self._channelUserList[request.channel] = []
 
-        if request.type == ChannelMemberUpdateRequest.Join and request.user not in self._channelUserList[
-                request.channel]:
+        # if request.type == ChannelMemberUpdateRequest.Join and request.user not in self._channelUserList[
+        #         request.channel]:
+        #     print(
+        #         f"User {request.user.name} has joined channel {request.channel}")
+        #     self._channelUserList[request.channel].append(request.user)
+
+        # elif request.type == ChannelMemberUpdateRequest.Join and request.user in self._channelUserList[request.channel]:
+        #     print(
+        #         f"User {request.user.name} has left channel {request.channel}")
+        #     self._channelUserList[request.channel].remove(request.user)
+
+        if not channel_table_exists(conn, cred):
+            create_channel_users_table(conn, cred[1])
+
+        if request.type == ChannelMemberUpdateRequest.Join and not read_channel_table(cred):
             print(
                 f"User {request.user.name} has joined channel {request.channel}")
-            self._channelUserList[request.channel].append(request.user)
-
-        elif request.type == ChannelMemberUpdateRequest.Join and request.user in self._channelUserList[request.channel]:
+            add_channel_user(conn, cred)
+        
+        elif request.type == ChannelMemberUpdateRequest.Leave and read_channel_table(cred):
             print(
                 f"User {request.user.name} has left channel {request.channel}")
-            self._channelUserList[request.channel].remove(request.user)
+            delete_channel_user(conn, cred)
+
+        else:
+            return GenericResponse(
+            successful=False,
+            timestamp=self._get_timestamp())
+
         #self.Status()
         return GenericResponse(
             successful=True,
